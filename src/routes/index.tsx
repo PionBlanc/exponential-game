@@ -33,12 +33,25 @@ function App() {
     }
   })
   const gameStateStr = toBase4(gameState)
+  const gameStateStrReversed = gameStateStr.split('').reverse().join('')
+
   return (
     <div className="text-center">
       <header className="min-h-screen flex flex-col items-center justify-center bg-[#282c34] text-white text-[calc(10px+2vmin)]">
-        Hello World
-        <p>{gameStateStr}</p>
-        <button onClick={() => incrementGameState()}>Increment</button>
+        Exponential Game
+        <div className="grid grid-cols-4 gap-2 mt-4">
+          {Array.from({ length: 4 * 8 }).map((_, index) => (
+            <div
+              key={index}
+              className="w-16 h-16 bg-gray-500 flex items-center justify-center text-2xl font-bold rounded"
+            >
+              0
+            </div>
+          ))}
+        </div>
+        <button onClick={() => incrementGameState()} className="mt-4">
+          Increment
+        </button>
       </header>
     </div>
   )
