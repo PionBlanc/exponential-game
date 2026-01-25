@@ -49,23 +49,40 @@ function App() {
   const gameStateStrReversed = gameStateStr.split('').reverse().join('')
 
   return (
-    <div className="text-center min-h-screen bg-[#282c34] pb-32">
-      <header className="flex flex-col items-center justify-center pt-8 text-white text-[calc(10px+2vmin)]">
+    <div className="flex flex-col min-h-screen bg-[#282c34] pb-32">
+      {/* Title */}
+      <header className="text-center pt-8 text-white text-[calc(10px+2vmin)]">
         Exponential Game
-        <div className="grid grid-cols-4 gap-2 mt-4">
+      </header>
+
+      {/* Photo */}
+      <div className="flex-1 flex items-center justify-center px-4 py-8">
+        <div className="w-full max-w-xs aspect-square rounded-lg overflow-hidden">
+          <img
+            src={`/kuva-${Math.min(gameStateStr.length, 15)}.jpg`}
+            alt="Game state illustration"
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+
+      {/* Grid - snapped to bottom */}
+      <div className="flex justify-center pb-4">
+        <div className="grid grid-cols-4 gap-2">
           {Array.from({ length: 4 * 8 }).map((_, index) => {
             const digit = gameStateStrReversed[index] ?? '0'
             return (
               <div
                 key={index}
-                className={`w-16 h-16 ${getBoxColor(digit)} flex items-center justify-center text-2xl font-bold rounded`}
+                className={`w-16 h-12 ${getBoxColor(digit)} flex items-center justify-center text-2xl font-bold rounded`}
               >
                 {digit}
               </div>
             )
           })}
         </div>
-      </header>
+      </div>
+
       <button
         onClick={() => incrementGameState()}
         className="fixed bottom-0 left-0 right-0 w-full py-10 text-xl font-bold text-white bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 active:from-pink-700 active:via-purple-700 active:to-indigo-700 transition-all duration-200 shadow-lg touch-manipulation select-none"
