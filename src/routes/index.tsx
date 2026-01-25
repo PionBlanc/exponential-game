@@ -8,7 +8,14 @@ export const Route = createFileRoute('/')({
 
 function App() {
   const gameState = useQuery(api.state.getGameState)
-  const incrementGameState = useMutation(api.state.incrementGameState)
+  const incrementGameState = useMutation(
+    api.state.incrementGameState,
+  ).withOptimisticUpdate((localStore) => {
+    const currentValue = localStore.getQuery(api.state.getGameState)
+    if (currentValue) {
+      localStore.setQuery(api.state.getGameState, {}, currentValue + BigInt(1))
+    }
+  })
   return (
     <div className="text-center">
       <header className="min-h-screen flex flex-col items-center justify-center bg-[#282c34] text-white text-[calc(10px+2vmin)]">
