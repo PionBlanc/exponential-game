@@ -22,6 +22,19 @@ function toBase4(value: bigint | null | undefined): string {
   return result
 }
 
+function getBoxColor(digit: string): string {
+  switch (digit) {
+    case '1':
+      return 'bg-red-500'
+    case '2':
+      return 'bg-yellow-500'
+    case '3':
+      return 'bg-green-500'
+    default:
+      return 'bg-gray-500'
+  }
+}
+
 function App() {
   const gameState = useQuery(api.state.getGameState)
   const incrementGameState = useMutation(
@@ -36,23 +49,29 @@ function App() {
   const gameStateStrReversed = gameStateStr.split('').reverse().join('')
 
   return (
-    <div className="text-center">
-      <header className="min-h-screen flex flex-col items-center justify-center bg-[#282c34] text-white text-[calc(10px+2vmin)]">
+    <div className="text-center min-h-screen bg-[#282c34] pb-32">
+      <header className="flex flex-col items-center justify-center pt-8 text-white text-[calc(10px+2vmin)]">
         Exponential Game
         <div className="grid grid-cols-4 gap-2 mt-4">
-          {Array.from({ length: 4 * 8 }).map((_, index) => (
-            <div
-              key={index}
-              className="w-16 h-16 bg-gray-500 flex items-center justify-center text-2xl font-bold rounded"
-            >
-              0
-            </div>
-          ))}
+          {Array.from({ length: 4 * 8 }).map((_, index) => {
+            const digit = gameStateStrReversed[index] ?? '0'
+            return (
+              <div
+                key={index}
+                className={`w-16 h-16 ${getBoxColor(digit)} flex items-center justify-center text-2xl font-bold rounded`}
+              >
+                {digit}
+              </div>
+            )
+          })}
         </div>
-        <button onClick={() => incrementGameState()} className="mt-4">
-          Increment
-        </button>
       </header>
+      <button
+        onClick={() => incrementGameState()}
+        className="fixed bottom-0 left-0 right-0 w-full py-10 text-xl font-bold text-white bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 active:from-pink-700 active:via-purple-700 active:to-indigo-700 transition-all duration-200 shadow-lg touch-manipulation select-none"
+      >
+        Increment
+      </button>
     </div>
   )
 }
